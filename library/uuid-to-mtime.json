@@ -500,8 +500,8 @@
     "relativePath": "model/primitives.fbx"
   },
   "0cfe739a-3254-4157-af78-ab6e7b7f93b7": {
-    "asset": 1613887507123,
-    "meta": 1613887507132,
+    "asset": 1613890651206,
+    "meta": 1613890651215,
     "relativePath": "wipe.fire"
   },
   "e2afd49e-0595-4231-b02e-236ac8487e4c": {
@@ -805,8 +805,18 @@
     "relativePath": "animal"
   },
   "e9626996-8de0-4e02-9fa2-83143b70125b": {
-    "asset": 1613887467696,
-    "meta": 1613887467701,
-    "relativePath": "button.anim"
+    "asset": 1613889842239,
+    "meta": 1613889842243,
+    "relativePath": "animal/button.anim"
+  },
+  "cf19c376-0a8b-4b20-aa79-6517a9d324d5": {
+    "asset": 1613890345921,
+    "meta": 1613890345927,
+    "relativePath": "animal/yellowbutton.anim"
+  },
+  "08529a3a-e7a7-4d90-b704-5ede77cacc24": {
+    "asset": 1613891599020,
+    "meta": 1613891599024,
+    "relativePath": "animal/sway.anim"
   }
 }

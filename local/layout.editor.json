@@ -5,7 +5,7 @@
       "main": true,
       "url": "app://editor/index.html",
       "windowType": "dockable",
-      "x": 0,
+      "x": -1,
       "y": 23,
       "width": 1680,
       "height": 954,
@@ -44,18 +44,18 @@
                 "children": [
                   "scene"
                 ],
-                "height": 460,
+                "height": 430.40625,
                 "type": "panel",
                 "width": 876
               },
               {
-                "active": 1,
+                "active": 2,
                 "children": [
                   "console",
-                  "timeline",
-                  "game-window"
+                  "game-window",
+                  "timeline"
                 ],
-                "height": 410,
+                "height": 439.59375,
                 "type": "panel",
                 "width": 876
               }
@@ -83,14 +83,21 @@
         "cloud-function",
         "scene",
         "console",
-        "timeline",
         "game-window",
         "inspector",
-        "cocos-services"
+        "cocos-services",
+        "timeline"
       ]
     }
   },
-  "panels": {},
+  "panels": {
+    "timeline": {
+      "x": 387,
+      "y": 449,
+      "width": 929,
+      "height": 321
+    }
+  },
   "panelLabelWidth": {
     "inspector": "26.178%"
   }
