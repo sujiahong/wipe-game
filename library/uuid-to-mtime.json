@@ -500,8 +500,8 @@
     "relativePath": "model/primitives.fbx"
   },
   "0cfe739a-3254-4157-af78-ab6e7b7f93b7": {
-    "asset": 1613890651206,
-    "meta": 1613890651215,
+    "asset": 1613896616471,
+    "meta": 1613896616481,
     "relativePath": "wipe.fire"
   },
   "e2afd49e-0595-4231-b02e-236ac8487e4c": {
@@ -784,11 +784,6 @@
     "meta": 1613880716516,
     "relativePath": "resources/bg.png"
   },
-  "ba3b935b-fd71-4388-af7c-9d72902551de": {
-    "asset": 1613880730780,
-    "meta": 1613880730834,
-    "relativePath": "resources/image/bg.png"
-  },
   "01851d35-29de-4cda-8da5-425747a43202": {
     "asset": 1613883330874,
     "meta": 1613883330903,
@@ -818,5 +813,80 @@
     "asset": 1613891599020,
     "meta": 1613891599024,
     "relativePath": "animal/sway.anim"
+  },
+  "58e9e53b-bb80-42cf-92d1-a76f13833da7": {
+    "asset": 1613892240047,
+    "meta": 1613892240091,
+    "relativePath": "resources/image/badge2.png"
+  },
+  "2852a811-6cc0-495a-a7da-b8c113950147": {
+    "asset": 1613892240047,
+    "meta": 1613892240094,
+    "relativePath": "resources/image/badge1.png"
+  },
+  "8a5108ac-eb45-4d46-98dd-b575f427af0c": {
+    "asset": 1613892240048,
+    "meta": 1613892240111,
+    "relativePath": "resources/image/badge3.png"
+  },
+  "37c5729c-d7ad-4786-828b-db164b336fda": {
+    "asset": 1613892240048,
+    "meta": 1613892240113,
+    "relativePath": "resources/image/bg3.png"
+  },
+  "cfb0353e-d6cd-47da-bf86-df502e790f5f": {
+    "asset": 1613892240048,
+    "meta": 1613892240132,
+    "relativePath": "resources/image/border.png"
+  },
+  "f1c91ba6-fe31-4242-a2d8-fcd56ba5ee78": {
+    "asset": 1613892240048,
+    "meta": 1613892240166,
+    "relativePath": "resources/image/bg2.png"
+  },
+  "074e4666-3d27-4ee6-a414-708ffb433763": {
+    "asset": 1613892240048,
+    "meta": 1613892240185,
+    "relativePath": "resources/image/bg1.png"
+  },
+  "5f0fe155-fdda-4b0b-b0ba-9a3af3655a1c": {
+    "asset": 1613892240048,
+    "meta": 1613892240188,
+    "relativePath": "resources/image/down.png"
+  },
+  "a6e6c31b-4116-4aab-8221-f7cb37dd9d11": {
+    "asset": 1613892240048,
+    "meta": 1613892240202,
+    "relativePath": "resources/image/ranking.png"
+  },
+  "cd183982-a994-4344-a177-c6f187925ced": {
+    "asset": 1613892240048,
+    "meta": 1613892240204,
+    "relativePath": "resources/image/close.png"
+  },
+  "8943cd7b-6669-4648-89cc-75098f9f9728": {
+    "asset": 1613892240048,
+    "meta": 1613892240218,
+    "relativePath": "resources/image/icon.png"
+  },
+  "db1c69c7-64b8-417f-bbae-8285ebb97a6c": {
+    "asset": 1613892240048,
+    "meta": 1613892240220,
+    "relativePath": "resources/image/me.png"
+  },
+  "d5dfc56f-b270-4a3c-a699-dc77e9d31d49": {
+    "asset": 1613892240048,
+    "meta": 1613892240233,
+    "relativePath": "resources/image/up.png"
+  },
+  "b205072e-2271-4379-9690-c3bca9d0533b": {
+    "asset": 1613892887109,
+    "meta": 1613892887142,
+    "relativePath": "resources/image/starui.png"
+  },
+  "555aec24-c3af-41f3-9b35-2d3dff7c007a": {
+    "asset": 1613896535829,
+    "meta": 1613896535836,
+    "relativePath": "animal/ranking.anim"
   }
 }

@@ -5,7 +5,7 @@
       "main": true,
       "url": "app://editor/index.html",
       "windowType": "dockable",
-      "x": -1,
+      "x": -2,
       "y": 23,
       "width": 1680,
       "height": 954,
@@ -44,7 +44,7 @@
                 "children": [
                   "scene"
                 ],
-                "height": 430.40625,
+                "height": 500,
                 "type": "panel",
                 "width": 876
               },
@@ -55,7 +55,7 @@
                   "game-window",
                   "timeline"
                 ],
-                "height": 439.59375,
+                "height": 370,
                 "type": "panel",
                 "width": 876
               }
