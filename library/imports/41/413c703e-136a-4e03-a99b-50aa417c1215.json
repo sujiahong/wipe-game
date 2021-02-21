@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "blueButton1",
+    "texture": "79d52b0a-4037-4cb8-b86e-06ea218baa8d",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      34,
+      113
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      34,
+      113
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

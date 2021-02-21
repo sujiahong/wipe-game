@@ -1,0 +1,183 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "button",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.03333333333333333,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "paths": {
+      "blueButton3": {
+        "props": {
+          "scaleX": [
+            {
+              "frame": 0,
+              "value": 50
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 80
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 1
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 0.7
+            }
+          ]
+        }
+      },
+      "blueButton1": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": 115.246
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 176.07
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 1
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 0.7
+            }
+          ]
+        }
+      },
+      "blueButton2": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": -113.667
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": -176.431
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 1
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 0.7
+            }
+          ]
+        }
+      },
+      "txt1": {
+        "props": {
+          "scaleX": [
+            {
+              "frame": 0,
+              "value": 1
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 1.2
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 1
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 0.8
+            }
+          ]
+        }
+      },
+      "title/title_front": {
+        "props": {
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 1.5
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 1.1
+            }
+          ],
+          "x": [
+            {
+              "frame": 0,
+              "value": -109.058
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": -286.507
+            }
+          ]
+        }
+      },
+      "title/tile_after": {
+        "props": {
+          "x": [
+            {
+              "frame": 0,
+              "value": 117.61
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 285.496
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 1.5
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 1
+            }
+          ]
+        }
+      },
+      "title": {
+        "props": {
+          "scaleX": [
+            {
+              "frame": 0,
+              "value": 0.5
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 1
+            }
+          ],
+          "scaleY": [
+            {
+              "frame": 0,
+              "value": 1.5
+            },
+            {
+              "frame": 0.03333333333333333,
+              "value": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": []
+}

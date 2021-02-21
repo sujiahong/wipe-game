@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "bottomColour2_4",
+    "texture": "974c0e4c-a4b1-4416-9f0a-07828f00b600",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      3,
+      27
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      3,
+      27
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

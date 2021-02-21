@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "redPacket",
+    "texture": "1c11b2cc-8a6a-45fe-b088-e806542a53aa",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      68,
+      81
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      68,
+      81
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}
