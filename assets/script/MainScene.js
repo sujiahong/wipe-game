@@ -1,5 +1,6 @@
 const TAG = "MainScene";
 var CurLevel = 1;
+var MaxLevel = 100;
 var LevelDataList = [
     {
         title: "这是什么物品",
@@ -16,6 +17,7 @@ var LevelDataList = [
         a4: "椭圆形",
     },
 ];
+var LevelList = [];
 var answerIndex = 1;
 let redTex = null;
 cc.loader.loadRes("image/red", function(err, tex){
@@ -35,6 +37,18 @@ cc.loader.loadRes("image/yellow", function(err, tex){
         yellowTex = tex;
     }
 });
+cc.loader.loadRes("config/level", function(err, data){
+    console.log("7383   ===== ", err, data);
+    if (err == null){
+        LevelDataList = data.json;
+        console.log("level length=", LevelDataList.length);
+    }
+});
+
+function random(lower, upper) {
+    return Math.floor(Math.random() * (upper - lower+1)) + lower;
+}
+
 cc.Class({
     extends: cc.Component,
     properties: {
@@ -42,6 +56,10 @@ cc.Class({
             default: null,
             type: cc.Mask,
             tooltip: "需要刮开的",
+        },
+        picSprite: {
+            default: null,
+            type: cc.Sprite,
         },
         moneyLabel:{
             default: null,
@@ -183,7 +201,6 @@ cc.Class({
         this.answerBtn3.node.on("click", this.onAnswerBtn3, this);
         this.answerBtn4.node.on("click", this.onAnswerBtn4, this);
 
-        //this.getInitNum();
         this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchBegin, this);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
@@ -221,14 +238,26 @@ cc.Class({
     },
     updateData()
     {
+        var self = this;
         this.passLabel.string = "第" + CurLevel + "关";
-        var levelData = LevelDataList[CurLevel-1];
+        var levelData = LevelDataList[LevelList[CurLevel-1]];
+        this.titleLabel.string = levelData.title;
+        answerIndex = random(1, 4);
+        console.log("正确答案 ：", answerIndex);
         this.btn1Label.string = levelData.a1;
         this.btn2Label.string = levelData.a2;
         this.btn3Label.string = levelData.a3;
         this.btn4Label.string = levelData.a4;
-        this.titleLabel.string = levelData.title;
-
+        if (answerIndex == 2){
+            this.btn1Label.string = levelData.a2;
+            this.btn2Label.string = levelData.a1;            
+        }else if (answerIndex == 3){
+            this.btn1Label.string = levelData.a3;
+            this.btn3Label.string = levelData.a1;  
+        }else if (answerIndex == 4){
+            this.btn1Label.string = levelData.a4;
+            this.btn4Label.string = levelData.a1;  
+        }
         this.titleSprite.node.active = true;
         this.nextBtn.node.active = false;
         this.btnBackground1.spriteFrame = new cc.SpriteFrame(yellowTex);
@@ -243,22 +272,34 @@ cc.Class({
         this.star1.node.active = true;
         this.star2.node.active = true;
         this.star3.node.active = true;
-        var graphics = this.mask._graphics;
+        let graphics = this.mask._graphics;
         graphics.clear();
+        cc.loader.loadRes("pic/"+String(levelData.id), function(err, tex){
+            console.log("加载图片", err, tex, "pic/"+String(levelData.id));
+            if (err == null){
+                self.picSprite.spriteFrame = new cc.SpriteFrame(tex);
+            }
+        });
     },
     start () {
+        for (let i = 0; i < MaxLevel; ++i){
+            LevelList.push(i);
+        }
+        let idx;
+        let tmp;
+        for (let i = 0; i < LevelList.length; ++i){
+            idx = random(i, LevelList.length-1);
+            tmp = LevelList[i];
+            LevelList[i] = LevelList[idx];
+            LevelList[idx] = tmp;
+            console.log("levelList[i] = ", LevelList[i]);
+        }
         this.moneyLabel.string = 0;
         this.progressBar1.fillRange = 0;
         this.progressBar1Front.node.active = false;
         this.progressBar1After.node.active = false;
         this.progressBar2.fillRange = 1;
         this.nextBtn.node.active = false;
-        cc.loader.loadRes("config/level", function(err, data){
-            console.log(err, data)
-            if (err == null){
-                levelData = data.json;
-            }
-        });
         this.updateData();
     },
     endScape()
@@ -276,7 +317,7 @@ cc.Class({
     onNextBtn: function(){
         console.log("onNextBtn ", CurLevel, LevelDataList.length);
         CurLevel++;
-        if (CurLevel > LevelDataList.length)
+        if (CurLevel > MaxLevel)
         {
             console.log("题目做完了");
             return;
@@ -386,12 +427,10 @@ cc.Class({
             this.star3.node.active = false;
             this.star2.node.active = false;
             this.star1.node.active = false;
-        }
-        else if (this.progressBar2.fillRange <= 0.52){
+        }else if (this.progressBar2.fillRange <= 0.52){
             this.star2.node.active = false;
             this.star1.node.active = false;
-        }
-        else if (this.progressBar2.fillRange <= 0.8)
+        }else if (this.progressBar2.fillRange <= 0.8)
             this.star1.node.active = false;
         this.progressBar2After.node.active = false;
         cc.log("this.scrapteRadiusX = " + this.scrapteRadiusX);
