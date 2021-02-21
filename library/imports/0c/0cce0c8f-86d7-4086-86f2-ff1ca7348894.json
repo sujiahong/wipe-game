@@ -1,0 +1,28 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "redButton2",
+    "texture": "611a1d60-9db8-4570-898e-fed3428f63a6",
+    "atlas": "",
+    "rect": [
+      0,
+      0,
+      34,
+      113
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      34,
+      113
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}
