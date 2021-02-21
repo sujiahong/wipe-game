@@ -1324,11 +1324,6 @@
     "meta": 1613897966272,
     "relativePath": "animal\\yellowbutton.anim"
   },
-  "0cfe739a-3254-4157-af78-ab6e7b7f93b7": {
-    "asset": 1613897778683,
-    "meta": 1613897966290,
-    "relativePath": "wipe.fire"
-  },
   "2852a811-6cc0-495a-a7da-b8c113950147": {
     "asset": 1613897636495,
     "meta": 1613897966326,
@@ -1398,5 +1393,10 @@
     "asset": 1613897636683,
     "meta": 1613897966547,
     "relativePath": "resources\\image\\up.png"
+  },
+  "0cfe739a-3254-4157-af78-ab6e7b7f93b7": {
+    "asset": 1613898430993,
+    "meta": 1613899223268,
+    "relativePath": "wipe.fire"
   }
 }
