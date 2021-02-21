@@ -6,7 +6,6 @@ cc._RF.push(module, 'a5d02MXVNxNwLPWMihCfg0S', 'MainScene');
 
 var TAG = "MainScene";
 var CurLevel = 1;
-var MaxLevel = 100;
 var LevelDataList = [{
   title: "这是什么物品",
   a1: "车子",
@@ -53,7 +52,15 @@ cc.Class({
     },
     progressBar1: {
       "default": null,
-      type: cc.ProgressBar
+      type: cc.Sprite
+    },
+    progressBar1Front: {
+      "default": null,
+      type: cc.Sprite
+    },
+    progressBar1After: {
+      "default": null,
+      type: cc.Sprite
     },
     hintSprite: {
       "default": null,
@@ -65,13 +72,25 @@ cc.Class({
     },
     progressBar2: {
       "default": null,
-      type: cc.ProgressBar
+      type: cc.Sprite
     },
     progressBar2Front: {
       "default": null,
       type: cc.Sprite
     },
     progressBar2After: {
+      "default": null,
+      type: cc.Sprite
+    },
+    star1: {
+      "default": null,
+      type: cc.Sprite
+    },
+    star2: {
+      "default": null,
+      type: cc.Sprite
+    },
+    star3: {
       "default": null,
       type: cc.Sprite
     },
@@ -205,6 +224,7 @@ cc.Class({
     return pixelPoint.length;
   },
   updateData: function updateData() {
+    this.passLabel.string = "第" + CurLevel + "关";
     var levelData = LevelDataList[CurLevel - 1];
     this.btn1Label.string = levelData.a1;
     this.btn2Label.string = levelData.a2;
@@ -218,25 +238,29 @@ cc.Class({
     this.btnBackground3.spriteFrame = new cc.SpriteFrame(yellowTex);
     this.btnBackground4.spriteFrame = new cc.SpriteFrame(yellowTex);
     this.getInitNum();
+    this.progressBar2.fillRange = 1;
+    this.progressBar2After.node.active = true;
+    this.progressBar2Front.node.active = true;
+    this.star1.node.active = true;
+    this.star2.node.active = true;
+    this.star3.node.active = true;
     var graphics = this.mask._graphics;
     graphics.clear();
   },
   start: function start() {
     this.moneyLabel.string = 0;
-    this.passLabel.string = "第" + CurLevel + "关";
-    this.btn1Label.string = "111111111";
-    this.btn2Label.string = "222222222";
-    this.btn3Label.string = "333333333";
-    this.btn4Label.string = "444444444";
-    this.progressBar1.progress = 0;
-    this.progressBar2.progress = 1;
-    this.nextBtn.node.active = false; // cc.loader.loadRes("config/level", function(err, data){
-    //     console.log(err, data)
-    //     if (err == null){
-    //         levelData = data.json;
-    //     }
-    // });
+    this.progressBar1.fillRange = 0;
+    this.progressBar1Front.node.active = false;
+    this.progressBar1After.node.active = false;
+    this.progressBar2.fillRange = 1;
+    this.nextBtn.node.active = false;
+    cc.loader.loadRes("config/level", function (err, data) {
+      console.log(err, data);
 
+      if (err == null) {
+        levelData = data.json;
+      }
+    });
     this.updateData();
   },
   endScape: function endScape() {
@@ -297,7 +321,7 @@ cc.Class({
     }
   },
   handleRight: function handleRight(index) {
-    this.progressBar1.progress += 0.1;
+    this.progressBar1.fillRange += 0.1;
     this.nextBtn.node.active = true;
     this.titleSprite.node.active = false;
 
@@ -350,7 +374,18 @@ cc.Class({
     }
 
     console.log("使用的比例：", this.pixelNum / this.achieveNum);
-    this.progressBar2.progress = this.progressBar2.progress - this.pixelNum / this.achieveNum;
+    this.progressBar2.fillRange = this.progressBar2.fillRange - this.pixelNum / this.achieveNum;
+    if (this.progressBar2.fillRange <= 0.01) this.progressBar2Front.node.active = false;
+
+    if (this.progressBar2.fillRange <= 0.24) {
+      this.star3.node.active = false;
+      this.star2.node.active = false;
+      this.star1.node.active = false;
+    } else if (this.progressBar2.fillRange <= 0.52) {
+      this.star2.node.active = false;
+      this.star1.node.active = false;
+    } else if (this.progressBar2.fillRange <= 0.8) this.star1.node.active = false;
+
     this.progressBar2After.node.active = false;
     cc.log("this.scrapteRadiusX = " + this.scrapteRadiusX);
     cc.log("this.scrapteRadiusY = " + this.scrapteRadiusY);
