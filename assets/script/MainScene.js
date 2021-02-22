@@ -61,6 +61,10 @@ cc.Class({
             default: null,
             type: cc.Sprite,
         },
+        surfaceSprite:{
+            default: null,
+            type: cc.Sprite,
+        },
         moneyLabel:{
             default: null,
             type: cc.Label,
@@ -189,6 +193,26 @@ cc.Class({
             type: [cc.Component.EventHandler],
             tooltip: "擦除完成出发事件"
         },
+        endNode:{
+            default: null,
+            type: cc.Node,
+        },
+        endStar1:{
+            default: null,
+            type: cc.Sprite,            
+        },
+        endStar2:{
+            default: null,
+            type: cc.Sprite,            
+        },
+        endStar3:{
+            default: null,
+            type: cc.Sprite,            
+        },
+        drawBtn: {
+            default: null,
+            type: cc.Button,
+        },
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -200,6 +224,7 @@ cc.Class({
         this.answerBtn2.node.on("click", this.onAnswerBtn2, this);
         this.answerBtn3.node.on("click", this.onAnswerBtn3, this);
         this.answerBtn4.node.on("click", this.onAnswerBtn4, this);
+        this.drawBtn.node.on("click", this.onDrawBtn, this);
 
         this.node.on(cc.Node.EventType.TOUCH_START, this.onTouchBegin, this);
         this.node.on(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
@@ -272,6 +297,9 @@ cc.Class({
         this.star1.node.active = true;
         this.star2.node.active = true;
         this.star3.node.active = true;
+        this.surfaceSprite.node.active = true;
+        this.endNode.active = false;
+
         let graphics = this.mask._graphics;
         graphics.clear();
         cc.loader.loadRes("pic/"+String(levelData.id), function(err, tex){
@@ -381,6 +409,8 @@ cc.Class({
         }else if(4 == index){
             this.btnBackground4.spriteFrame = new cc.SpriteFrame(greenTex);
         }
+        this.surfaceSprite.node.active = false;
+        this.endNode.active = true;
     },
     handleError(index){
         this.nextBtn.node.active = true;
@@ -394,7 +424,17 @@ cc.Class({
         }else if(4 == index){
             this.btnBackground4.spriteFrame = new cc.SpriteFrame(redTex);
         }
+        this.surfaceSprite.node.active = false;
+        this.endNode.active = true;
     },
+    showEndPanel()
+    {
+
+    },
+    onDrawBtn(){
+        console.log("onDrawBtn ");
+    },
+
     onTouchBegin: function(event){
         cc.log("touch begin");
         //this.comFunc(event);
