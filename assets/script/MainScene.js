@@ -1,24 +1,12 @@
 const TAG = "MainScene";
 var CurLevel = 1;
 var MaxLevel = 100;
-var LevelDataList = [
-    {
-        title: "这是什么物品",
-        a1: "车子",
-        a2: "房子",
-        a3: "椅子",
-        a4: "瓶子",
-    },
-    {
-        title: "图中是什么图形",
-        a1: "圆形",
-        a2: "矩形",
-        a3: "正方形",
-        a4: "椭圆形",
-    },
-];
+var LevelDataList = [];
 var LevelList = [];
 var answerIndex = 1;
+var curStarNum = 0;
+var maxStarNum = 0;
+
 let redTex = null;
 cc.loader.loadRes("image/red", function(err, tex){
     if (err == null){
@@ -284,6 +272,8 @@ cc.Class({
             this.btn4Label.string = levelData.a1;  
         }
         this.titleSprite.node.active = true;
+        var anim = this.titleSprite.node.getComponent(cc.Animation);
+        anim.play("button");
         this.nextBtn.node.active = false;
         this.btnBackground1.spriteFrame = new cc.SpriteFrame(yellowTex);
         this.btnBackground2.spriteFrame = new cc.SpriteFrame(yellowTex);
@@ -398,8 +388,10 @@ cc.Class({
     },
     handleRight(index){
         this.progressBar1.fillRange += 0.1;
-        this.nextBtn.node.active = true;
-        this.titleSprite.node.active = false;
+        ///播放答案按钮消失动画
+
+        //this.nextBtn.node.active = true;
+        //this.titleSprite.node.active = false;
         if (1 == index){
             this.btnBackground1.spriteFrame = new cc.SpriteFrame(greenTex);
         }else if(2 == index){
@@ -410,11 +402,11 @@ cc.Class({
             this.btnBackground4.spriteFrame = new cc.SpriteFrame(greenTex);
         }
         this.surfaceSprite.node.active = false;
-        this.endNode.active = true;
+        this.showEndPanel();
     },
     handleError(index){
-        this.nextBtn.node.active = true;
-        this.titleSprite.node.active = false;
+        //展示激励视频
+
         if (1 == index){
             this.btnBackground1.spriteFrame = new cc.SpriteFrame(redTex);
         }else if(2 == index){
@@ -425,14 +417,25 @@ cc.Class({
             this.btnBackground4.spriteFrame = new cc.SpriteFrame(redTex);
         }
         this.surfaceSprite.node.active = false;
-        this.endNode.active = true;
+        this.showEndPanel();
     },
     showEndPanel()
     {
-
+        ///展示关卡结束界面打开动画
+        this.endNode.active = true;
     },
     onDrawBtn(){
         console.log("onDrawBtn ");
+        ////////展示关卡结束界面关闭动画
+
+        this.nextBtn.node.active = true;
+        var nextBtnAnim = this.nextBtn.node.getComponent(cc.Animation);
+        var animState = nextBtnAnim.getAnimationState("button");
+        animState.speed = -1;
+        //animState.time = animState.clip.length;
+        nextBtnAnim.play("button");
+        this.titleSprite.node.active = false;
+        this.endNode.active = false;
     },
 
     onTouchBegin: function(event){
@@ -463,15 +466,21 @@ cc.Class({
         this.progressBar2.fillRange = this.progressBar2.fillRange - this.pixelNum/this.achieveNum;
         if (this.progressBar2.fillRange <= 0.01)
             this.progressBar2Front.node.active = false;
+        curStarNum = 3;
         if (this.progressBar2.fillRange <= 0.24){
             this.star3.node.active = false;
             this.star2.node.active = false;
             this.star1.node.active = false;
+            curStarNum = 0;
         }else if (this.progressBar2.fillRange <= 0.52){
             this.star2.node.active = false;
             this.star1.node.active = false;
-        }else if (this.progressBar2.fillRange <= 0.8)
+            curStarNum = 1;
+        }else if (this.progressBar2.fillRange <= 0.8){
             this.star1.node.active = false;
+            curStarNum = 2;
+        }
+        maxStarNum += curStarNum;
         this.progressBar2After.node.active = false;
         cc.log("this.scrapteRadiusX = " + this.scrapteRadiusX);
         cc.log("this.scrapteRadiusY = " + this.scrapteRadiusY);
