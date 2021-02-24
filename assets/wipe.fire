@@ -5215,11 +5215,11 @@
     },
     "_enabled": true,
     "_defaultClip": {
-      "__uuid__": "08529a3a-e7a7-4d90-b704-5ede77cacc24"
+      "__uuid__": "3f446e99-b8b7-427c-bb36-16bc247d2591"
     },
     "_clips": [
       {
-        "__uuid__": "08529a3a-e7a7-4d90-b704-5ede77cacc24"
+        "__uuid__": "3f446e99-b8b7-427c-bb36-16bc247d2591"
       }
     ],
     "playOnLoad": false,
