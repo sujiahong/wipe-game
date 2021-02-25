@@ -273,7 +273,7 @@ cc.Class({
         }
         this.titleSprite.node.active = true;
         var anim = this.titleSprite.node.getComponent(cc.Animation);
-        anim.play("button");
+        anim.play("button2");
         this.nextBtn.node.active = false;
         this.btnBackground1.spriteFrame = new cc.SpriteFrame(yellowTex);
         this.btnBackground2.spriteFrame = new cc.SpriteFrame(yellowTex);
@@ -310,14 +310,13 @@ cc.Class({
             tmp = LevelList[i];
             LevelList[i] = LevelList[idx];
             LevelList[idx] = tmp;
-            console.log("levelList[i] = ", LevelList[i]);
+            //console.log("levelList[i] = ", LevelList[i]);
         }
         this.moneyLabel.string = 0;
         this.progressBar1.fillRange = 0;
         this.progressBar1Front.node.active = false;
         this.progressBar1After.node.active = false;
         this.progressBar2.fillRange = 1;
-        this.nextBtn.node.active = false;
         this.updateData();
     },
     endScape()
@@ -340,7 +339,13 @@ cc.Class({
             console.log("题目做完了");
             return;
         }
-        this.updateData();
+        var nextBtnAnim = this.nextBtn.node.getComponent(cc.Animation);
+        nextBtnAnim.play("button");
+        var finishCallback = function(){
+            this.updateData();
+            nextBtnAnim.off("finished", finishCallback, this);
+        }
+        nextBtnAnim.on('finished',  finishCallback, this);
     },
     onAnswerBtn1: function(){
         cc.log("onAnswerBtn1");
@@ -432,7 +437,7 @@ cc.Class({
         var nextBtnAnim = this.nextBtn.node.getComponent(cc.Animation);
         var animState = nextBtnAnim.getAnimationState("button");
         animState.speed = -1;
-        //animState.time = animState.clip.length;
+        animState.time = animState.clip.length;
         nextBtnAnim.play("button");
         this.titleSprite.node.active = false;
         this.endNode.active = false;
@@ -482,19 +487,22 @@ cc.Class({
         }
         maxStarNum += curStarNum;
         this.progressBar2After.node.active = false;
-        cc.log("this.scrapteRadiusX = " + this.scrapteRadiusX);
-        cc.log("this.scrapteRadiusY = " + this.scrapteRadiusY);
+        console.log("this.scrapteRadiusX = ",this.scrapteRadiusX, "this.scrapteRadiusY = ", this.scrapteRadiusY);
+        console.log("curStarNum=", curStarNum);
     },
     getPos(e){
+        var lastPoint = e.touch.getPreviousLocation();
+        lastPoint = this.picSprite.node.convertToNodeSpaceAR(lastPoint);
         var point = e.touch.getLocation();
-        point = this.node.convertToNodeSpaceAR(point);
+        point = this.picSprite.node.convertToNodeSpaceAR(point);
+        console.log("lastPoint=", lastPoint.x, lastPoint.y, " point=", point.x, point.y);
         return point;
     },
     comFunc(event)
     {
         var point = this.getPos(event);
-        this.checkPixelPoint(point);
-        this._addCircle(point);
+        //this.checkPixelPoint(point);
+        this.addCircle(point);
     },
     checkPixelPoint(point){
         var pixelPoint = this.pixelPoint;
@@ -510,13 +518,14 @@ cc.Class({
             }
         }
     },
-    _addCircle(point){
+    addCircle(point){
         var graphics = this.mask._graphics;
         var color = cc.color(0, 0, 0, 255);
         graphics.lineWidth = 2;
         graphics.fillColor = color;
         graphics.ellipse(point.x, point.y, this.scrapteRadiusX, this.scrapteRadiusY);
         graphics.fill();
+        
     },
     achieveScrape(){
         this.endScape();
