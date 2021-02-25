@@ -10504,8 +10504,8 @@
     "btn4Label": {
       "__id__": 151
     },
-    "scrapteRadiusX": 10,
-    "scrapteRadiusY": 14,
+    "scrapteRadiusX": 30,
+    "scrapteRadiusY": 30,
     "scrapteArea": 0.5,
     "scrapeEvents": [],
     "endNode": {

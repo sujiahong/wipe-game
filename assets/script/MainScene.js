@@ -290,6 +290,7 @@ cc.Class({
         this.surfaceSprite.node.active = true;
         this.endNode.active = false;
 
+        this.drawMovePoints = [];
         let graphics = this.mask._graphics;
         graphics.clear();
         cc.loader.loadRes("pic/"+String(levelData.id), function(err, tex){
@@ -340,12 +341,35 @@ cc.Class({
             return;
         }
         var nextBtnAnim = this.nextBtn.node.getComponent(cc.Animation);
+        var animState = nextBtnAnim.getAnimationState("button");
+        animState.speed = 1;
+        animState.time = 0;
         nextBtnAnim.play("button");
         var finishCallback = function(){
             this.updateData();
             nextBtnAnim.off("finished", finishCallback, this);
         }
         nextBtnAnim.on('finished',  finishCallback, this);
+        var btnAnim1 = this.answerBtn1.node.getComponent(cc.Animation);
+        var animState1 = btnAnim1.getAnimationState("yellowbutton2");
+        animState1.speed = 1;
+        animState1.time = 0;
+        btnAnim1.play("yellowbutton2");
+        var btnAnim2 = this.answerBtn2.node.getComponent(cc.Animation);
+        var animState2 = btnAnim2.getAnimationState("yellowbutton3");
+        animState2.speed = 1;
+        animState2.time = 0;
+        btnAnim2.play("yellowbutton3");
+        var btnAnim3 = this.answerBtn3.node.getComponent(cc.Animation);
+        var animState3 = btnAnim3.getAnimationState("yellowbutton4");
+        animState3.speed = 1;
+        animState3.time = 0;
+        btnAnim3.play("yellowbutton4");
+        var btnAnim4 = this.answerBtn4.node.getComponent(cc.Animation);
+        var animState4 = btnAnim4.getAnimationState("yellowbutton5");
+        animState4.speed = 1;
+        animState4.time = 0;
+        btnAnim4.play("yellowbutton5");
     },
     onAnswerBtn1: function(){
         cc.log("onAnswerBtn1");
@@ -441,20 +465,40 @@ cc.Class({
         nextBtnAnim.play("button");
         this.titleSprite.node.active = false;
         this.endNode.active = false;
+        var btnAnim1 = this.answerBtn1.node.getComponent(cc.Animation);
+        var animState1 = btnAnim1.getAnimationState("yellowbutton2");
+        animState1.speed = -1;
+        animState1.time = animState1.clip.length;
+        btnAnim1.play("yellowbutton2");
+        var btnAnim2 = this.answerBtn2.node.getComponent(cc.Animation);
+        var animState2 = btnAnim2.getAnimationState("yellowbutton3");
+        animState2.speed = -1;
+        animState2.time = animState2.clip.length;
+        btnAnim2.play("yellowbutton3");
+        var btnAnim3 = this.answerBtn3.node.getComponent(cc.Animation);
+        var animState3 = btnAnim3.getAnimationState("yellowbutton4");
+        animState3.speed = -1;
+        animState3.time = animState3.clip.length;
+        btnAnim3.play("yellowbutton4");
+        var btnAnim4 = this.answerBtn4.node.getComponent(cc.Animation);
+        var animState4 = btnAnim4.getAnimationState("yellowbutton5");
+        animState4.speed = -1;
+        animState4.time = animState4.clip.length;
+        btnAnim4.play("yellowbutton5");
     },
 
     onTouchBegin: function(event){
         cc.log("touch begin");
-        //this.comFunc(event);
+        this.drawMovePoints = [];
     },
     onTouchMove: function(event){
         cc.log("touch move");
-        this.comFunc(event);
+        this.scrapeOffMask(event);
     },
     onTouchEnd: function(event){
         cc.log("touch end");
         this.checkScrape();
-        this.comFunc(event);
+        this.scrapeOffMask(event);
     },
     onTouchCancel: function(event){
         cc.log("touch cancel");
@@ -491,18 +535,15 @@ cc.Class({
         console.log("curStarNum=", curStarNum);
     },
     getPos(e){
-        var lastPoint = e.touch.getPreviousLocation();
-        lastPoint = this.picSprite.node.convertToNodeSpaceAR(lastPoint);
         var point = e.touch.getLocation();
         point = this.picSprite.node.convertToNodeSpaceAR(point);
-        console.log("lastPoint=", lastPoint.x, lastPoint.y, " point=", point.x, point.y);
         return point;
     },
-    comFunc(event)
+    scrapeOffMask(event)
     {
         var point = this.getPos(event);
-        //this.checkPixelPoint(point);
-        this.addCircle(point);
+        this.checkPixelPoint(point);
+        this.drawCircle(point);
     },
     checkPixelPoint(point){
         var pixelPoint = this.pixelPoint;
@@ -518,14 +559,24 @@ cc.Class({
             }
         }
     },
-    addCircle(point){
+    drawCircle(point){
         var graphics = this.mask._graphics;
-        var color = cc.color(0, 0, 0, 255);
-        graphics.lineWidth = 2;
-        graphics.fillColor = color;
-        graphics.ellipse(point.x, point.y, this.scrapteRadiusX, this.scrapteRadiusY);
-        graphics.fill();
-        
+        const len = this.drawMovePoints.length;
+        this.drawMovePoints.push(point);
+        if (len <= 1){
+            graphics.circle(point.x, point.y, this.scrapteRadiusX/2);
+            graphics.fill();
+        }else{
+            var prevPos = this.drawMovePoints[len - 2];
+            var curPos = this.drawMovePoints[len - 1];
+            graphics.moveTo(prevPos.x, prevPos.y);
+            graphics.lineTo(curPos.x, curPos.y);
+            graphics.lineWidth = this.scrapteRadiusX;
+            graphics.lineCap = cc.Graphics.LineCap.ROUND;
+            graphics.lineJoin = cc.Graphics.LineJoin.ROUND;
+            graphics.strokeColor = cc.color(255, 255, 255, 255);
+            graphics.stroke();
+        }
     },
     achieveScrape(){
         this.endScape();
