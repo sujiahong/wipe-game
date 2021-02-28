@@ -3,7 +3,7 @@
   "_name": "sway",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.8333333333333334,
+  "_duration": 0.4166666666666667,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -12,23 +12,22 @@
       "angle": [
         {
           "frame": 0,
-          "value": 0,
-          "curve": "cubicOut"
+          "value": 0
         },
         {
-          "frame": 0.21666666666666667,
-          "value": 5
+          "frame": 0.13333333333333333,
+          "value": 9
         },
         {
-          "frame": 0.45,
-          "value": -5
+          "frame": 0.25,
+          "value": -3
         },
         {
-          "frame": 0.65,
+          "frame": 0.3333333333333333,
           "value": 2
         },
         {
-          "frame": 0.8333333333333334,
+          "frame": 0.4166666666666667,
           "value": 0
         }
       ]
