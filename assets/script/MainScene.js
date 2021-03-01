@@ -69,6 +69,10 @@ cc.Class({
             default: null,
             type: cc.Sprite,
         },
+        gainStarSprite: {
+            default: null,
+            type: cc.Sprite,
+        },
         hintSprite: {
             default: null,
             type: cc.Sprite,
@@ -249,8 +253,7 @@ cc.Class({
         this.pixelPoint = pixelPoint;
         return pixelPoint.length;
     },
-    updateData()
-    {
+    updateData(){
         var self = this;
         this.passLabel.string = "第" + CurLevel + "关";
         var levelData = LevelDataList[LevelList[CurLevel-1]];
@@ -289,8 +292,13 @@ cc.Class({
         this.star3.node.active = true;
         this.surfaceSprite.node.active = true;
         this.endNode.active = false;
+        if (this.progressBar1.fillRange > 0)
+        {
+            this.progressBar1Front.node.active = true;
+        }
 
         this.drawMovePoints = [];
+        this.polygonPointsList = [];
         let graphics = this.mask._graphics;
         graphics.clear();
         cc.loader.loadRes("pic/"+String(levelData.id), function(err, tex){
@@ -299,6 +307,14 @@ cc.Class({
                 self.picSprite.spriteFrame = new cc.SpriteFrame(tex);
             }
         });
+        for (let x = 0; x < this.surfaceSprite.node.width; x += this.scrapteRadiusX) {
+            for (let y = 0; y < this.surfaceSprite.node.height; y += this.scrapteRadiusX) {
+              this.polygonPointsList.push({
+                rect: cc.rect(x - this.surfaceSprite.node.width / 2, y - this.surfaceSprite.node.height / 2, this.scrapteRadiusX, this.scrapteRadiusX),
+                isHit: false
+              });
+            }
+          }
     },
     start () {
         for (let i = 0; i < MaxLevel; ++i){
@@ -320,17 +336,13 @@ cc.Class({
         this.progressBar2.fillRange = 1;
         this.updateData();
     },
-    endScape()
+    // update (dt) {},
+    onDestroy: function()
     {
         this.node.off(cc.Node.EventType.TOUCH_START, this.onTouchBegin, this);
         this.node.off(cc.Node.EventType.TOUCH_MOVE, this.onTouchMove, this);
         this.node.off(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.off(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
-    },
-    // update (dt) {},
-    onDestroy: function()
-    {
-        this.endScape();
     },
     onNextBtn: function(){
         console.log("onNextBtn ", CurLevel, LevelDataList.length);
@@ -416,11 +428,8 @@ cc.Class({
         }
     },
     handleRight(index){
-        this.progressBar1.fillRange += 0.1;
         ///播放答案按钮消失动画
 
-        //this.nextBtn.node.active = true;
-        //this.titleSprite.node.active = false;
         if (1 == index){
             this.btnBackground1.spriteFrame = new cc.SpriteFrame(greenTex);
         }else if(2 == index){
@@ -451,10 +460,27 @@ cc.Class({
     showEndPanel()
     {
         ///展示关卡结束界面打开动画
+        this.endStar3.node.active = true;
+        this.endStar2.node.active = true;
+        this.endStar1.node.active = true;
+        if (curStarNum == 2){
+            this.endStar3.node.active = false;
+            this.endStar2.node.active = true;
+            this.endStar1.node.active = true;
+        }else if (curStarNum == 1){
+            this.endStar3.node.active = false;
+            this.endStar2.node.active = false;
+            this.endStar1.node.active = true;
+        }else if (curStarNum == 0){
+            this.endStar3.node.active = false;
+            this.endStar2.node.active = false;
+            this.endStar1.node.active = false;
+        }
         this.endNode.active = true;
     },
     onDrawBtn(){
         console.log("onDrawBtn ");
+        var self = this;
         ////////展示关卡结束界面关闭动画
 
         this.nextBtn.node.active = true;
@@ -464,7 +490,6 @@ cc.Class({
         animState.time = animState.clip.length;
         nextBtnAnim.play("button");
         this.titleSprite.node.active = false;
-        this.endNode.active = false;
         var btnAnim1 = this.answerBtn1.node.getComponent(cc.Animation);
         var animState1 = btnAnim1.getAnimationState("yellowbutton2");
         animState1.speed = -1;
@@ -485,6 +510,47 @@ cc.Class({
         animState4.speed = -1;
         animState4.time = animState4.clip.length;
         btnAnim4.play("yellowbutton5");
+
+        var old_pos = this.endStar1.node.getPosition();
+        var pos = this.gainStarSprite.node.getPosition();
+        var world_pos = this.gainStarSprite.node.convertToWorldSpaceAR(cc.v2(0,0));
+        var node_pos = this.endNode.convertToNodeSpaceAR(world_pos);
+        console.log(" gain star pos", pos.x, pos.y, " world pos", world_pos.x, world_pos.y, " node pos", node_pos.x, node_pos.y);
+        if (curStarNum == 3){
+            var action = cc.sequence(
+                cc.moveTo(1, node_pos.x, node_pos.y),
+                cc.callFunc(function(){
+                    self.endStar1.node.setPosition(old_pos);
+                    self.endNode.active = false;
+                }, this)
+            );
+            this.endStar1.node.runAction(action);  
+        }else if (curStarNum == 2){
+            var action = cc.sequence(
+                cc.moveTo(1, node_pos.x, node_pos.y),
+                cc.callFunc(function(){
+                    self.endStar1.node.setPosition(old_pos);
+                    self.endNode.active = false;
+                }, this)
+            );
+            this.endStar1.node.runAction(action);  
+        }else if (curStarNum == 1){
+            var action = cc.sequence(
+                cc.moveTo(1, node_pos.x, node_pos.y),
+                cc.callFunc(function(){
+                    self.endStar1.node.setPosition(old_pos);
+                    self.endNode.active = false;
+                }, this)
+            );
+            this.endStar1.node.runAction(action);  
+        }else{
+            this.endNode.active = false;
+        }
+        this.progressBar1.fillRange += 0.1 * curStarNum;
+        if (this.progressBar1.fillRange == 1){
+            this.progressBar1.fillRange = 1;
+            this.progressBar1After.node.active = true;
+        }
     },
 
     onTouchBegin: function(event){
@@ -492,52 +558,17 @@ cc.Class({
         this.drawMovePoints = [];
     },
     onTouchMove: function(event){
-        cc.log("touch move");
+        //cc.log("touch move");
         this.scrapeOffMask(event);
     },
     onTouchEnd: function(event){
         cc.log("touch end");
-        this.checkScrape();
         this.scrapeOffMask(event);
+        this.checkScrape();
     },
     onTouchCancel: function(event){
         cc.log("touch cancel");
         this.checkScrape();
-    },
-    checkScrape(){
-        cc.log("目标数是：" + this.achieveNum);
-        cc.log("现在已经刮开"+this.pixelNum);
-        if (this.achieveNum <= this.pixelNum){
-            cc.log("已经刮完图层");
-            //this.achieveScrape();
-        }
-        console.log("使用的比例：", this.pixelNum/this.achieveNum);
-        this.progressBar2.fillRange = this.progressBar2.fillRange - this.pixelNum/this.achieveNum;
-        if (this.progressBar2.fillRange <= 0.01)
-            this.progressBar2Front.node.active = false;
-        curStarNum = 3;
-        if (this.progressBar2.fillRange <= 0.24){
-            this.star3.node.active = false;
-            this.star2.node.active = false;
-            this.star1.node.active = false;
-            curStarNum = 0;
-        }else if (this.progressBar2.fillRange <= 0.52){
-            this.star2.node.active = false;
-            this.star1.node.active = false;
-            curStarNum = 1;
-        }else if (this.progressBar2.fillRange <= 0.8){
-            this.star1.node.active = false;
-            curStarNum = 2;
-        }
-        maxStarNum += curStarNum;
-        this.progressBar2After.node.active = false;
-        console.log("this.scrapteRadiusX = ",this.scrapteRadiusX, "this.scrapteRadiusY = ", this.scrapteRadiusY);
-        console.log("curStarNum=", curStarNum);
-    },
-    getPos(e){
-        var point = e.touch.getLocation();
-        point = this.picSprite.node.convertToNodeSpaceAR(point);
-        return point;
     },
     scrapeOffMask(event)
     {
@@ -566,6 +597,13 @@ cc.Class({
         if (len <= 1){
             graphics.circle(point.x, point.y, this.scrapteRadiusX/2);
             graphics.fill();
+            // 记录点所在的格子
+            this.polygonPointsList.forEach((item) => {
+              if (item.isHit) return;
+              const xFlag = point.x > item.rect.x && point.x < item.rect.x + item.rect.width;
+              const yFlag = point.y > item.rect.y && point.y < item.rect.y + item.rect.height;
+              if (xFlag && yFlag) item.isHit = true;
+            });
         }else{
             var prevPos = this.drawMovePoints[len - 2];
             var curPos = this.drawMovePoints[len - 1];
@@ -576,13 +614,55 @@ cc.Class({
             graphics.lineJoin = cc.Graphics.LineJoin.ROUND;
             graphics.strokeColor = cc.color(255, 255, 255, 255);
             graphics.stroke();
+            // 记录线段经过的格子
+            this.polygonPointsList.forEach((item) => {
+              item.isHit = item.isHit || cc.Intersection.lineRect(prevPos, curPos, item.rect);
+            });
         }
     },
-    achieveScrape(){
-        this.endScape();
-        this.node.runAction(cc.fadeOut(0.5));
-        this.scheduleOnce((()=>{
-            cc.Component.EventHandler.emitEvents(this.scrapeEvents, new cc.Event.EventCustom("scrapeEvents"));
-        }).bind(this), 0.6);
+    checkScrape(){
+        cc.log("目标数是：" + this.achieveNum);
+        cc.log("现在已经刮开"+this.pixelNum);
+        if (this.achieveNum <= this.pixelNum){
+            cc.log("已经刮完图层");
+        }
+        console.log("使用的比例：", this.pixelNum/this.achieveNum);
+        this.progressBar2.fillRange = this.progressBar2.fillRange - this.pixelNum/this.achieveNum;
+        if (this.progressBar2.fillRange <= 0.01)
+            this.progressBar2Front.node.active = false;
+        curStarNum = 3;
+        if (this.progressBar2.fillRange <= 0.24){
+            this.star3.node.active = false;
+            this.star2.node.active = false;
+            this.star1.node.active = false;
+            curStarNum = 0;
+        }else if (this.progressBar2.fillRange <= 0.52){
+            this.star2.node.active = false;
+            this.star1.node.active = false;
+            curStarNum = 1;
+        }else if (this.progressBar2.fillRange <= 0.8){
+            this.star1.node.active = false;
+            curStarNum = 2;
+        }
+        maxStarNum += curStarNum;
+        this.progressBar2After.node.active = false;
+        console.log("this.scrapteRadiusX = ",this.scrapteRadiusX, "this.scrapteRadiusY = ", this.scrapteRadiusY);
+        console.log("curStarNum=", curStarNum);
+        let hitItemCount = 0;
+        this.polygonPointsList.forEach((item) => {
+            if (!item.isHit) return;
+            hitItemCount += 1;
+      
+            // if (!this.calcDebugger) return;
+            // ctx.rect(item.rect.x, item.rect.y, item.rect.width, item.rect.height);
+            // ctx.fillColor = cc.color(216, 18, 18, 255);
+            // ctx.fill();
+        });
+        console.log(`已经刮开了 ${Math.ceil((hitItemCount / this.polygonPointsList.length) * 100)}%`);
+    },
+    getPos(e){
+        var point = e.touch.getLocation();
+        point = this.picSprite.node.convertToNodeSpaceAR(point);
+        return point;
     },
 });

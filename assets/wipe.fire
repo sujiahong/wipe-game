@@ -10795,6 +10795,9 @@
     "progressBar1After": {
       "__id__": 169
     },
+    "gainStarSprite": {
+      "__id__": 49
+    },
     "hintSprite": {
       "__id__": 187
     },
