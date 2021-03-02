@@ -223,36 +223,6 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_END, this.onTouchEnd, this);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL, this.onTouchCancel, this);
     },
-    getInitNum(){
-        this.pixelNum = 0;
-        this.achieveNum = this.scrapteArea * this.initPixel();
-    },
-    initPixel(){
-        this.scrapeNode = this.mask.node.children[0];
-        cc.log("this.scrapeNode ", this.mask.node.children.length);
-        var x = this.scrapeNode.width, y = this.scrapeNode.height;
-        console.log("x=", x, "y=", y);
-        this.node.width = x;
-        this.node.height = y;
-        this.widthWide= x/2 + 20;
-        this.heightWide = x/2 + 20;
-        var zx = x/2, zy=y/2, dx = -zx, dy = -zy, dy1 = dy;
-        var pixelPoint = [];
-        var rx = this.scrapteRadiusX*2;
-        var ry = this.scrapteRadiusY*2;
-
-        for(; dx <= zx; dx += rx)
-        {
-            for(dy = dy1; dy <= zy; dy += ry)
-            {
-                var p = [dx, dy];
-                p.isTouch = true;
-                pixelPoint.push(p);
-            }
-        }
-        this.pixelPoint = pixelPoint;
-        return pixelPoint.length;
-    },
     updateData(){
         var self = this;
         this.passLabel.string = "第" + CurLevel + "关";
@@ -282,7 +252,7 @@ cc.Class({
         this.btnBackground2.spriteFrame = new cc.SpriteFrame(yellowTex);
         this.btnBackground3.spriteFrame = new cc.SpriteFrame(yellowTex);
         this.btnBackground4.spriteFrame = new cc.SpriteFrame(yellowTex);
-        this.getInitNum();
+        //this.getInitNum();
 
         this.progressBar2.fillRange = 1;
         this.progressBar2After.node.active = true;
@@ -296,7 +266,7 @@ cc.Class({
         {
             this.progressBar1Front.node.active = true;
         }
-
+        this.curHitCount = 0;
         this.drawMovePoints = [];
         this.polygonPointsList = [];
         let graphics = this.mask._graphics;
@@ -460,6 +430,17 @@ cc.Class({
     showEndPanel()
     {
         ///展示关卡结束界面打开动画
+        var starAnim1 = this.star1.node.getComponent(cc.Animation);
+        var starAnim2 = this.star2.node.getComponent(cc.Animation);
+        var starAnim3 = this.star3.node.getComponent(cc.Animation);
+        if (curStarNum == 3)
+        {
+            starAnim3.play("star");
+            starAnim2.play("star");
+            starAnim1.play("star");
+        }
+        this.progressBar2.fillRange = 0;
+        this.progressBar2After.node.active = false;
         this.endStar3.node.active = true;
         this.endStar2.node.active = true;
         this.endStar1.node.active = true;
@@ -467,10 +448,13 @@ cc.Class({
             this.endStar3.node.active = false;
             this.endStar2.node.active = true;
             this.endStar1.node.active = true;
+            starAnim3.play("star");
+            starAnim2.play("star");
         }else if (curStarNum == 1){
             this.endStar3.node.active = false;
             this.endStar2.node.active = false;
             this.endStar1.node.active = true;
+            starAnim3.play("star");
         }else if (curStarNum == 0){
             this.endStar3.node.active = false;
             this.endStar2.node.active = false;
@@ -560,11 +544,12 @@ cc.Class({
     onTouchMove: function(event){
         //cc.log("touch move");
         this.scrapeOffMask(event);
+        this.checkScrape();
     },
     onTouchEnd: function(event){
         cc.log("touch end");
-        this.scrapeOffMask(event);
-        this.checkScrape();
+        //this.scrapeOffMask(event);
+        //this.checkScrape();
     },
     onTouchCancel: function(event){
         cc.log("touch cancel");
@@ -573,22 +558,7 @@ cc.Class({
     scrapeOffMask(event)
     {
         var point = this.getPos(event);
-        this.checkPixelPoint(point);
         this.drawCircle(point);
-    },
-    checkPixelPoint(point){
-        var pixelPoint = this.pixelPoint;
-        var x, y;
-        for (var i in pixelPoint){
-            x = Math.abs(point.x - pixelPoint[i][0]);
-            y = Math.abs(point.y - pixelPoint[i][1]);
-            if (x <= this.scrapteRadiusX && y <= this.scrapteRadiusY && pixelPoint[i].isTouch)
-            {
-                pixelPoint[i].isTouch = false;
-                this.pixelNum++;
-                return;
-            }
-        }
     },
     drawCircle(point){
         var graphics = this.mask._graphics;
@@ -621,13 +591,7 @@ cc.Class({
         }
     },
     checkScrape(){
-        cc.log("目标数是：" + this.achieveNum);
-        cc.log("现在已经刮开"+this.pixelNum);
-        if (this.achieveNum <= this.pixelNum){
-            cc.log("已经刮完图层");
-        }
-        console.log("使用的比例：", this.pixelNum/this.achieveNum);
-        this.progressBar2.fillRange = this.progressBar2.fillRange - this.pixelNum/this.achieveNum;
+        this.setProgressRate();
         if (this.progressBar2.fillRange <= 0.01)
             this.progressBar2Front.node.active = false;
         curStarNum = 3;
@@ -645,20 +609,26 @@ cc.Class({
             curStarNum = 2;
         }
         maxStarNum += curStarNum;
-        this.progressBar2After.node.active = false;
-        console.log("this.scrapteRadiusX = ",this.scrapteRadiusX, "this.scrapteRadiusY = ", this.scrapteRadiusY);
         console.log("curStarNum=", curStarNum);
+    },
+    setProgressRate(){
         let hitItemCount = 0;
         this.polygonPointsList.forEach((item) => {
             if (!item.isHit) return;
             hitItemCount += 1;
-      
             // if (!this.calcDebugger) return;
             // ctx.rect(item.rect.x, item.rect.y, item.rect.width, item.rect.height);
             // ctx.fillColor = cc.color(216, 18, 18, 255);
             // ctx.fill();
         });
-        console.log(`已经刮开了 ${Math.ceil((hitItemCount / this.polygonPointsList.length) * 100)}%`);
+        console.log(`已经刮开了 ${Math.ceil((hitItemCount / this.polygonPointsList.length) * 100)}%`, this.curHitCount, hitItemCount, this.polygonPointsList.length);
+        if (this.curHitCount == hitItemCount){
+            return;
+        }
+        console.log("=======================================  ", this.progressBar2.fillRange);
+        this.progressBar2.fillRange = this.progressBar2.fillRange - (hitItemCount-this.curHitCount)/this.polygonPointsList.length*3;
+        this.progressBar2After.node.active = false;
+        this.curHitCount = hitItemCount;
     },
     getPos(e){
         var point = e.touch.getLocation();
