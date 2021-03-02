@@ -413,7 +413,7 @@ cc.Class({
         this.showEndPanel();
     },
     handleError(index){
-        //展示激励视频
+        //展示激励视频, 看完重试
 
         if (1 == index){
             this.btnBackground1.spriteFrame = new cc.SpriteFrame(redTex);
@@ -427,6 +427,16 @@ cc.Class({
         this.surfaceSprite.node.active = false;
         this.showEndPanel();
     },
+    update(dt){
+        if (this.isPlayProgressBar2Anim)
+        {
+            this.progressBar2.fillRange -= 0.04;
+            if (this.progressBar2.fillRange <= 0){
+                this.isPlayProgressBar2Anim = false;
+                this.progressBar2Front.node.active = false;
+            }
+        }
+    },
     showEndPanel()
     {
         ///展示关卡结束界面打开动画
@@ -439,8 +449,8 @@ cc.Class({
             starAnim2.play("star");
             starAnim1.play("star");
         }
-        this.progressBar2.fillRange = 0;
-        this.progressBar2After.node.active = false;
+        this.isPlayProgressBar2Anim = true;
+        
         this.endStar3.node.active = true;
         this.endStar2.node.active = true;
         this.endStar1.node.active = true;
@@ -553,7 +563,7 @@ cc.Class({
     },
     onTouchCancel: function(event){
         cc.log("touch cancel");
-        this.checkScrape();
+        //this.checkScrape();
     },
     scrapeOffMask(event)
     {
