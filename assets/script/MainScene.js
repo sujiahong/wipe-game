@@ -299,6 +299,7 @@ cc.Class({
             LevelList[idx] = tmp;
             //console.log("levelList[i] = ", LevelList[i]);
         }
+        this.hintSprite.node.active = false;
         this.moneyLabel.string = 0;
         this.progressBar1.fillRange = 0;
         this.progressBar1Front.node.active = false;
@@ -636,7 +637,7 @@ cc.Class({
             return;
         }
         console.log("=======================================  ", this.progressBar2.fillRange);
-        this.progressBar2.fillRange = this.progressBar2.fillRange - (hitItemCount-this.curHitCount)/this.polygonPointsList.length*3;
+        this.progressBar2.fillRange = this.progressBar2.fillRange - (hitItemCount-this.curHitCount)/this.polygonPointsList.length*2;
         this.progressBar2After.node.active = false;
         this.curHitCount = hitItemCount;
     },

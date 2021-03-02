@@ -8385,7 +8385,7 @@
         "__id__": 176
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 179
@@ -8414,8 +8414,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        0,
-        0,
+        310.516,
+        522.027,
         0,
         0,
         0,
@@ -8479,8 +8479,8 @@
       "__type__": "TypedArray",
       "ctor": "Float64Array",
       "array": [
-        310.516,
-        522.027,
+        0,
+        -2.842170943040401e-14,
         0,
         0,
         0,
@@ -8488,7 +8488,7 @@
         1,
         1,
         1,
-        1
+        0
       ]
     },
     "_eulerAngles": {
@@ -8547,10 +8547,10 @@
     "alignMode": 0,
     "_target": null,
     "_alignFlags": 45,
-    "_left": 310.516,
-    "_right": -310.516,
-    "_top": -549.527,
-    "_bottom": 494.527,
+    "_left": 0,
+    "_right": 0,
+    "_top": -27.5,
+    "_bottom": -27.500000000000057,
     "_verticalCenter": 0,
     "_horizontalCenter": 0,
     "_isAbsLeft": true,
@@ -8574,12 +8574,12 @@
     "_normalMaterial": null,
     "_grayMaterial": null,
     "duration": 0.1,
-    "zoomScale": 1.2,
+    "zoomScale": 1.1,
     "clickEvents": [],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
-    "_N$transition": 2,
-    "transition": 2,
+    "_N$transition": 3,
+    "transition": 3,
     "_N$normalColor": {
       "__type__": "cc.Color",
       "r": 230,
