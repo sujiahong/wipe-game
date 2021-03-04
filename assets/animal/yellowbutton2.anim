@@ -1,9 +1,9 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "yellowbutton",
+  "_name": "yellowbutton2",
   "_objFlags": 0,
   "_native": "",
-  "_duration": 0.3333333333333333,
+  "_duration": 0.5333333333333333,
   "sample": 60,
   "speed": 1,
   "wrapMode": 1,
@@ -23,6 +23,10 @@
         {
           "frame": 0.3333333333333333,
           "value": 1
+        },
+        {
+          "frame": 0.5333333333333333,
+          "value": 1
         }
       ],
       "scaleY": [
@@ -39,6 +43,10 @@
         {
           "frame": 0.3333333333333333,
           "value": 1
+        },
+        {
+          "frame": 0.5333333333333333,
+          "value": 1
         }
       ]
     },
@@ -52,6 +60,10 @@
             },
             {
               "frame": 0.3333333333333333,
+              "value": 255
+            },
+            {
+              "frame": 0.5333333333333333,
               "value": 255
             }
           ]
