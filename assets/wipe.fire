@@ -8569,7 +8569,7 @@
     "_normalMaterial": null,
     "_grayMaterial": null,
     "duration": 0.1,
-    "zoomScale": 1.2,
+    "zoomScale": 1.1,
     "clickEvents": [],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
@@ -8682,7 +8682,12 @@
       "__uuid__": "c4ff74dc-af3b-4178-b774-2202959ed77b"
     },
     "_clips": [
-      null,
+      {
+        "__uuid__": "f6c4d1d3-78c5-4882-883f-cfff437912a2"
+      },
+      {
+        "__uuid__": "9a416a32-edf9-4602-9a03-b4ab8ede3887"
+      },
       {
         "__uuid__": "c4ff74dc-af3b-4178-b774-2202959ed77b"
       }
@@ -10831,9 +10836,6 @@
     "endNode": {
       "__id__": 158
     },
-    "endStar1": null,
-    "endStar2": null,
-    "endStar3": null,
     "drawBtn": {
       "__id__": 179
     },

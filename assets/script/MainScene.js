@@ -189,18 +189,6 @@ cc.Class({
             default: null,
             type: cc.Node,
         },
-        endStar1:{
-            default: null,
-            type: cc.Sprite,            
-        },
-        endStar2:{
-            default: null,
-            type: cc.Sprite,            
-        },
-        endStar3:{
-            default: null,
-            type: cc.Sprite,            
-        },
         drawBtn: {
             default: null,
             type: cc.Button,
@@ -260,6 +248,21 @@ cc.Class({
         this.star1.node.active = true;
         this.star2.node.active = true;
         this.star3.node.active = true;
+        var starAnim1 = this.star1.node.getComponent(cc.Animation);
+        var animState1 = starAnim1.getAnimationState("star");
+        animState1.speed = -1;
+        animState1.time = animState1.clip.length;
+        starAnim1.play("star");
+        var starAnim2 = this.star2.node.getComponent(cc.Animation);
+        var animState2 = starAnim2.getAnimationState("star");
+        animState2.speed = -1;
+        animState2.time = animState2.clip.length;
+        starAnim2.play("star");
+        var starAnim3 = this.star3.node.getComponent(cc.Animation);
+        var animState3 = starAnim3.getAnimationState("star");
+        animState3.speed = -1;
+        animState3.time = animState3.clip.length;
+        starAnim3.play("star");
         this.surfaceSprite.node.active = true;
         this.endNode.active = false;
         if (this.progressBar1.fillRange > 0)
@@ -442,36 +445,34 @@ cc.Class({
     {
         ///展示关卡结束界面打开动画
         var starAnim1 = this.star1.node.getComponent(cc.Animation);
+        var animState1 = starAnim1.getAnimationState("star");
+        animState1.speed = 1;
+        animState1.time = 0;
         var starAnim2 = this.star2.node.getComponent(cc.Animation);
+        var animState2 = starAnim2.getAnimationState("star");
+        animState2.speed = 1;
+        animState2.time = 0;
         var starAnim3 = this.star3.node.getComponent(cc.Animation);
-        if (curStarNum == 3)
-        {
+        var animState3 = starAnim3.getAnimationState("star");
+        animState3.speed = 1;
+        animState3.time = 0;
+        this.isPlayProgressBar2Anim = true;
+
+        this.endNode.active = true;
+        var endAnim = this.endNode.getComponent(cc.Animation);
+        if (curStarNum == 3){
             starAnim3.play("star");
             starAnim2.play("star");
             starAnim1.play("star");
-        }
-        this.isPlayProgressBar2Anim = true;
-        
-        this.endStar3.node.active = true;
-        this.endStar2.node.active = true;
-        this.endStar1.node.active = true;
-        if (curStarNum == 2){
-            this.endStar3.node.active = false;
-            this.endStar2.node.active = true;
-            this.endStar1.node.active = true;
+            endAnim.play("harvest3");
+        }else if (curStarNum == 2){
             starAnim3.play("star");
             starAnim2.play("star");
+            endAnim.play("harvest2");
         }else if (curStarNum == 1){
-            this.endStar3.node.active = false;
-            this.endStar2.node.active = false;
-            this.endStar1.node.active = true;
             starAnim3.play("star");
-        }else if (curStarNum == 0){
-            this.endStar3.node.active = false;
-            this.endStar2.node.active = false;
-            this.endStar1.node.active = false;
+            endAnim.play("harvest1");
         }
-        this.endNode.active = true;
     },
     onDrawBtn(){
         console.log("onDrawBtn ");
@@ -506,46 +507,47 @@ cc.Class({
         animState4.time = animState4.clip.length;
         btnAnim4.play("yellowbutton5");
 
-        var old_pos = this.endStar1.node.getPosition();
-        var pos = this.gainStarSprite.node.getPosition();
-        var world_pos = this.gainStarSprite.node.convertToWorldSpaceAR(cc.v2(0,0));
-        var node_pos = this.endNode.convertToNodeSpaceAR(world_pos);
-        console.log(" gain star pos", pos.x, pos.y, " world pos", world_pos.x, world_pos.y, " node pos", node_pos.x, node_pos.y);
-        if (curStarNum == 3){
-            var action = cc.sequence(
-                cc.moveTo(1, node_pos.x, node_pos.y),
-                cc.callFunc(function(){
-                    self.endStar1.node.setPosition(old_pos);
-                    self.endNode.active = false;
-                }, this)
-            );
-            this.endStar1.node.runAction(action);  
-        }else if (curStarNum == 2){
-            var action = cc.sequence(
-                cc.moveTo(1, node_pos.x, node_pos.y),
-                cc.callFunc(function(){
-                    self.endStar1.node.setPosition(old_pos);
-                    self.endNode.active = false;
-                }, this)
-            );
-            this.endStar1.node.runAction(action);  
-        }else if (curStarNum == 1){
-            var action = cc.sequence(
-                cc.moveTo(1, node_pos.x, node_pos.y),
-                cc.callFunc(function(){
-                    self.endStar1.node.setPosition(old_pos);
-                    self.endNode.active = false;
-                }, this)
-            );
-            this.endStar1.node.runAction(action);  
-        }else{
-            this.endNode.active = false;
-        }
+        // var old_pos = this.endStar1.node.getPosition();
+        // var pos = this.gainStarSprite.node.getPosition();
+        // var world_pos = this.gainStarSprite.node.convertToWorldSpaceAR(cc.v2(0,0));
+        // var node_pos = this.endNode.convertToNodeSpaceAR(world_pos);
+        // console.log(" gain star pos", pos.x, pos.y, " world pos", world_pos.x, world_pos.y, " node pos", node_pos.x, node_pos.y);
+        // if (curStarNum == 3){
+        //     var action = cc.sequence(
+        //         cc.moveTo(1, node_pos.x, node_pos.y),
+        //         cc.callFunc(function(){
+        //             self.endStar1.node.setPosition(old_pos);
+        //             self.endNode.active = false;
+        //         }, this)
+        //     );
+        //     this.endStar1.node.runAction(action);  
+        // }else if (curStarNum == 2){
+        //     var action = cc.sequence(
+        //         cc.moveTo(1, node_pos.x, node_pos.y),
+        //         cc.callFunc(function(){
+        //             self.endStar1.node.setPosition(old_pos);
+        //             self.endNode.active = false;
+        //         }, this)
+        //     );
+        //     this.endStar1.node.runAction(action);  
+        // }else if (curStarNum == 1){
+        //     var action = cc.sequence(
+        //         cc.moveTo(1, node_pos.x, node_pos.y),
+        //         cc.callFunc(function(){
+        //             self.endStar1.node.setPosition(old_pos);
+        //             self.endNode.active = false;
+        //         }, this)
+        //     );
+        //     this.endStar1.node.runAction(action);  
+        // }else{
+        this.endNode.active = false;
+        maxStarNum += curStarNum;
         this.progressBar1.fillRange += 0.1 * curStarNum;
         if (this.progressBar1.fillRange == 1){
             this.progressBar1.fillRange = 1;
             this.progressBar1After.node.active = true;
         }
+        curStarNum=0;
     },
 
     onTouchBegin: function(event){
@@ -619,8 +621,7 @@ cc.Class({
             this.star1.node.active = false;
             curStarNum = 2;
         }
-        maxStarNum += curStarNum;
-        console.log("curStarNum=", curStarNum);
+        //console.log("curStarNum=", curStarNum);
     },
     setProgressRate(){
         let hitItemCount = 0;
@@ -632,11 +633,11 @@ cc.Class({
             // ctx.fillColor = cc.color(216, 18, 18, 255);
             // ctx.fill();
         });
-        console.log(`已经刮开了 ${Math.ceil((hitItemCount / this.polygonPointsList.length) * 100)}%`, this.curHitCount, hitItemCount, this.polygonPointsList.length);
+        //console.log(`已经刮开了 ${Math.ceil((hitItemCount / this.polygonPointsList.length) * 100)}%`, this.curHitCount, hitItemCount, this.polygonPointsList.length);
         if (this.curHitCount == hitItemCount){
             return;
         }
-        console.log("=======================================  ", this.progressBar2.fillRange);
+        //console.log("=======================================  ", this.progressBar2.fillRange);
         this.progressBar2.fillRange = this.progressBar2.fillRange - (hitItemCount-this.curHitCount)/this.polygonPointsList.length*2;
         this.progressBar2After.node.active = false;
         this.curHitCount = hitItemCount;
