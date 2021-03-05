@@ -428,8 +428,7 @@ cc.Class({
         }else if(4 == index){
             this.btnBackground4.spriteFrame = new cc.SpriteFrame(redTex);
         }
-        this.surfaceSprite.node.active = false;
-        this.showEndPanel();
+        //this.surfaceSprite.node.active = false;
     },
     update(dt){
         if (this.isPlayProgressBar2Anim)
@@ -507,40 +506,12 @@ cc.Class({
         animState4.time = animState4.clip.length;
         btnAnim4.play("yellowbutton5");
 
-        // var old_pos = this.endStar1.node.getPosition();
-        // var pos = this.gainStarSprite.node.getPosition();
-        // var world_pos = this.gainStarSprite.node.convertToWorldSpaceAR(cc.v2(0,0));
-        // var node_pos = this.endNode.convertToNodeSpaceAR(world_pos);
-        // console.log(" gain star pos", pos.x, pos.y, " world pos", world_pos.x, world_pos.y, " node pos", node_pos.x, node_pos.y);
-        // if (curStarNum == 3){
-        //     var action = cc.sequence(
-        //         cc.moveTo(1, node_pos.x, node_pos.y),
-        //         cc.callFunc(function(){
-        //             self.endStar1.node.setPosition(old_pos);
-        //             self.endNode.active = false;
-        //         }, this)
-        //     );
-        //     this.endStar1.node.runAction(action);  
-        // }else if (curStarNum == 2){
-        //     var action = cc.sequence(
-        //         cc.moveTo(1, node_pos.x, node_pos.y),
-        //         cc.callFunc(function(){
-        //             self.endStar1.node.setPosition(old_pos);
-        //             self.endNode.active = false;
-        //         }, this)
-        //     );
-        //     this.endStar1.node.runAction(action);  
-        // }else if (curStarNum == 1){
-        //     var action = cc.sequence(
-        //         cc.moveTo(1, node_pos.x, node_pos.y),
-        //         cc.callFunc(function(){
-        //             self.endStar1.node.setPosition(old_pos);
-        //             self.endNode.active = false;
-        //         }, this)
-        //     );
-        //     this.endStar1.node.runAction(action);  
-        // }else{
-        this.endNode.active = false;
+        var endAnim = this.endNode.getComponent(cc.Animation);
+        var finishCallback = function(){
+            this.endNode.active = false;
+        }
+        endAnim.on('finished',  finishCallback, this);
+        endAnim.resume();
         maxStarNum += curStarNum;
         this.progressBar1.fillRange += 0.1 * curStarNum;
         if (this.progressBar1.fillRange == 1){
